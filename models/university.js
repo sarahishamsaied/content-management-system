@@ -9,6 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      university.belongsTo(models.education_institution, {
+        foreignKey: "education_institution_id",
+        as: "education_institution",
+      });
+      university.hasMany(models.major, {
+        foreignKey: "university_id",
+        as: "major",
+      });
+      university.hasOne(models.user_university, {
+        foreignKey: "university_id",
+        as: "user_university",
+      });
     }
   }
   university.init(

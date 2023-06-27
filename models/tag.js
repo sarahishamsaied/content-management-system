@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      tag.belongsToMany(models.post, {
+        through: "tag_post",
+        as: "posts",
+        foreignKey: "tag_id",
+      });
     }
   }
   tag.init(

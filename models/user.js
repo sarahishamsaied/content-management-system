@@ -28,6 +28,22 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "user_id",
         as: "follows",
       });
+      User.hasOne(models.user_university, {
+        foreignKey: "user_id",
+        as: "user_university",
+      });
+      User.hasOne(models.user_school, {
+        foreignKey: "user_id",
+        as: "user_school",
+      });
+      User.hasOne(models.user_diploma, {
+        foreignKey: "user_id",
+        as: "user_diploma",
+      });
+      User.hasOne(models.education_institution_user, {
+        foreignKey: "user_id",
+        as: "education_institution_user",
+      });
     }
   }
   User.init(

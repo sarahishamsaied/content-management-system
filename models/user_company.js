@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      user_company.hasOne(models.Company, {
+      user_company.belongsTo(models.Company, {
         foreignKey: "company_id",
         as: "company",
       });
-      user_company.hasOne(models.User, {
+      user_company.belongsTo(models.User, {
         foreignKey: "user_id",
         as: "user",
       });

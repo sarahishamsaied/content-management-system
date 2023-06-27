@@ -8,7 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      user_company.hasOne(models.Company, {
+        foreignKey: "company_id",
+        as: "company",
+      });
+      user_company.hasOne(models.User, {
+        foreignKey: "user_id",
+        as: "user",
+      });
     }
   }
   user_company.init(
@@ -16,10 +23,18 @@ module.exports = (sequelize, DataTypes) => {
       user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       company_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: "companies",
+          key: "id",
+        },
       },
       position: {
         type: DataTypes.STRING,

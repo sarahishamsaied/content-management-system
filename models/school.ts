@@ -1,4 +1,6 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import sequelizeConnection from "../config/sequelize.config";
+import EducationInstitution from "./education_institution";
 
 interface SchoolAttributes {
   education_institution_id: number;
@@ -6,32 +8,22 @@ interface SchoolAttributes {
 
 class School extends Model<SchoolAttributes> implements SchoolAttributes {
   public education_institution_id!: number;
-
-  public static initialize(sequelize: Sequelize) {
-    this.init(
-      {
-        education_institution_id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: { model: "education_institutions", key: "id" },
-        },
-      },
-      {
-        sequelize,
-        modelName: "school",
-      }
-    );
-  }
-
-  public static associate(models: any) {
-    School.belongsTo(models.education_institution, {
-      foreignKey: "education_institution_id",
-      as: "education_institution",
-    });
-    School.hasOne(models.school_user, {
-      foreignKey: "school_id",
-    });
-  }
 }
-
+School.init(
+  {
+    education_institution_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "education_institutions", key: "id" },
+    },
+  },
+  {
+    sequelize: sequelizeConnection,
+    modelName: "school",
+  }
+);
+School.belongsTo(EducationInstitution, {
+  foreignKey: "education_institution_id",
+  as: "education_institution",
+});
 export default School;

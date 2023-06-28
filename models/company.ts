@@ -1,4 +1,7 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import sequelizeConnection from "../config/sequelize.config";
+import User from "./user";
+import UserCompany from "./user_company";
 
 interface CompanyAttributes {
   name?: string;
@@ -22,33 +25,25 @@ class Company extends Model<CompanyAttributes> implements CompanyAttributes {
   public is_verified?: boolean;
   public email?: string;
   public password?: string;
-
-  public static initialize(sequelize: Sequelize) {
-    this.init(
-      {
-        name: DataTypes.STRING,
-        phone_number: DataTypes.STRING,
-        address: DataTypes.STRING,
-        description: DataTypes.STRING,
-        img_url: DataTypes.STRING,
-        bio: DataTypes.STRING,
-        is_verified: DataTypes.BOOLEAN,
-        email: DataTypes.STRING,
-        password: DataTypes.STRING,
-      },
-      {
-        sequelize,
-        modelName: "Company",
-      }
-    );
-  }
-
-  public static associate(models: any) {
-    Company.belongsTo(models.user_company, {
-      foreignKey: "id",
-      as: "user_company",
-    });
-  }
 }
-
+Company.init(
+  {
+    name: DataTypes.STRING,
+    phone_number: DataTypes.STRING,
+    address: DataTypes.STRING,
+    description: DataTypes.STRING,
+    img_url: DataTypes.STRING,
+    bio: DataTypes.STRING,
+    is_verified: DataTypes.BOOLEAN,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+  },
+  {
+    sequelize: sequelizeConnection,
+    modelName: "Company",
+  }
+);
+Company.belongsToMany(User, {
+  through: UserCompany,
+});
 export default Company;

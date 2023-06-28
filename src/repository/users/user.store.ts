@@ -1,13 +1,13 @@
-import User from "../../../models/user";
+import User, { UserAttributes } from "../../../models/user";
 export default class UserStore {
   async index(): Promise<Array<User>> {
     try {
-      const users: Array<User> = await User.findAll({});
-      if (users) {
-        return users;
-      }
+      const users = await User.findAll({});
+      console.log("users are: ", users);
+      if (users) return users;
       return [];
     } catch (error) {
+      console.log(error);
       throw new Error(`Could not find users. Error: ${error}`);
     }
   }
@@ -20,7 +20,7 @@ export default class UserStore {
     }
   }
 
-  async create(user: User): Promise<User> {
+  async create(user: UserAttributes): Promise<User> {
     try {
       const newUser: User = await User.create(user);
       return newUser;

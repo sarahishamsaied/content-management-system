@@ -1,4 +1,5 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import sequelizeConnection from "../config/sequelize.config";
 
 interface UserUniversityAttributes {
   university_id: number;
@@ -39,56 +40,42 @@ class UserUniversity
     | "Bachelor of Applied Sciences"
     | "Bachelor of Architecture"
     | "Bachelor of Applied Arts";
-
-  public static initialize(sequelize: Sequelize) {
-    this.init(
-      {
-        university_id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: { model: "universities", key: "id" },
-        },
-        user_id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: { model: "users", key: "id" },
-        },
-        gpa: DataTypes.FLOAT,
-        degree: {
-          type: DataTypes.ENUM(
-            "Bachelor's degree",
-            "Doctoral Degree",
-            "Master Degree",
-            "Associate Degree",
-            "Professional Degree",
-            "Bachelor of Arts",
-            "Bachelor of Science",
-            "Bachelor of Engineering",
-            "Bachelor of Education",
-            "Bachelor of Applied Sciences",
-            "Bachelor of Architecture",
-            "Bachelor of Applied Arts"
-          ),
-          allowNull: false,
-        },
-      },
-      {
-        sequelize,
-        modelName: "user_university",
-      }
-    );
-  }
-
-  public static associate(models: any) {
-    UserUniversity.belongsTo(models.university, {
-      foreignKey: "university_id",
-      as: "university",
-    });
-    UserUniversity.belongsTo(models.user, {
-      foreignKey: "user_id",
-      as: "user",
-    });
-  }
 }
+UserUniversity.init(
+  {
+    university_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "universities", key: "id" },
+    },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "users", key: "id" },
+    },
+    gpa: DataTypes.FLOAT,
+    degree: {
+      type: DataTypes.ENUM(
+        "Bachelor's degree",
+        "Doctoral Degree",
+        "Master Degree",
+        "Associate Degree",
+        "Professional Degree",
+        "Bachelor of Arts",
+        "Bachelor of Science",
+        "Bachelor of Engineering",
+        "Bachelor of Education",
+        "Bachelor of Applied Sciences",
+        "Bachelor of Architecture",
+        "Bachelor of Applied Arts"
+      ),
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: sequelizeConnection,
+    modelName: "user_university",
+  }
+);
 
 export default UserUniversity;

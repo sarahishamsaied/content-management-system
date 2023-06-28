@@ -1,9 +1,6 @@
 import { Router } from "express";
-import UserStore from "../../repository/users/user.store";
+import { create, index } from "../../handlers/users/users.handler";
 const userRouter = Router();
-const userStore = new UserStore();
-userRouter.get("/", userStore.index);
-userRouter.get("/:id", userStore.show);
-userRouter.post("/", userStore.create);
-
+userRouter.get("/", index);
+userRouter.post("/", create);
 export default userRouter;

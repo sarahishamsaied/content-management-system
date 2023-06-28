@@ -1,4 +1,5 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
+import sequelizeConnection from "../config/sequelize.config";
 
 interface EducationInstitutionAttributes {
   name: string;
@@ -25,30 +26,22 @@ class EducationInstitution
   public description?: string;
   public website?: string;
   public img_url?: string;
-
-  public static initialize(sequelize: Sequelize) {
-    this.init(
-      {
-        name: { type: DataTypes.STRING, allowNull: false },
-        phone_number: { type: DataTypes.STRING, allowNull: false },
-        country: { type: DataTypes.STRING, allowNull: false },
-        city: { type: DataTypes.STRING, allowNull: false },
-        is_verified: { type: DataTypes.BOOLEAN, allowNull: false },
-        address: { type: DataTypes.STRING, allowNull: false },
-        description: DataTypes.STRING,
-        website: DataTypes.STRING,
-        img_url: DataTypes.STRING,
-      },
-      {
-        sequelize,
-        modelName: "Education_institution",
-      }
-    );
-  }
-
-  public static associate(models: any) {
-    // Define associations here if needed
-  }
 }
-
+EducationInstitution.init(
+  {
+    name: { type: DataTypes.STRING, allowNull: false },
+    phone_number: { type: DataTypes.STRING, allowNull: false },
+    country: { type: DataTypes.STRING, allowNull: false },
+    city: { type: DataTypes.STRING, allowNull: false },
+    is_verified: { type: DataTypes.BOOLEAN, allowNull: false },
+    address: { type: DataTypes.STRING, allowNull: false },
+    description: DataTypes.STRING,
+    website: DataTypes.STRING,
+    img_url: DataTypes.STRING,
+  },
+  {
+    sequelize: sequelizeConnection,
+    modelName: "Education_institution",
+  }
+);
 export default EducationInstitution;

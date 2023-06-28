@@ -1,5 +1,8 @@
 import { Model, DataTypes, Sequelize } from "sequelize";
-
+import sequelizeConnection from "../config/sequelize.config";
+import User from "./user";
+import Comment from "./comment";
+import Like from "./like";
 interface PostAttributes {
   author_id: number;
   title: string | null;
@@ -16,45 +19,34 @@ class Post extends Model<PostAttributes> implements PostAttributes {
   public image_url!: string | null;
   public slug!: string;
   public is_published!: boolean;
-
-  public static initialize(sequelize: Sequelize) {
-    this.init(
-      {
-        author_id: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: { model: "users", key: "id" },
-        },
-        title: { type: DataTypes.STRING },
-        body: { type: DataTypes.STRING, allowNull: false },
-        image_url: DataTypes.STRING,
-        slug: { type: DataTypes.STRING, allowNull: false, unique: true },
-        is_published: {
-          type: DataTypes.BOOLEAN,
-          allowNull: false,
-        },
-      },
-      {
-        sequelize,
-        modelName: "post",
-      }
-    );
-  }
-
-  public static associate(models: any) {
-    Post.belongsTo(models.user, {
-      foreignKey: "author_id",
-      as: "author",
-    });
-    Post.hasMany(models.comment, {
-      foreignKey: "post_id",
-      as: "comments",
-    });
-    Post.hasMany(models.like, {
-      foreignKey: "post_id",
-      as: "likes",
-    });
-  }
 }
-
+Post.init(
+  {
+    author_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "users", key: "id" },
+    },
+    title: { type: DataTypes.STRING },
+    body: { type: DataTypes.STRING, allowNull: false },
+    image_url: DataTypes.STRING,
+    slug: { type: DataTypes.STRING, allowNull: false, unique: true },
+    is_published: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: sequelizeConnection,
+    modelName: "post",
+  }
+);
+Post.hasMany(Comment, {
+  foreignKey: "post_id",
+  as: "comments",
+});
+Post.hasMany(Like, {
+  foreignKey: "post_id",
+  as: "likes",
+});
 export default Post;

@@ -43,12 +43,16 @@ const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.show = show;
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { author_id, body } = req.body;
+        const { title, body, image_url } = req.body;
+        const { id: author_id } = req.user;
+        console.log(req.user);
+        console.log("author_id", author_id);
         const { error } = (0, validation_1.validatePost)({ author_id, body });
         if (error)
             throw new Error(error.details[0].message);
         const postStore = new post_store_1.default();
-        const post = yield postStore.create(req.body);
+        const inputPost = { title, body, image_url, author_id };
+        const post = yield postStore.create(inputPost);
         res.json(post);
     }
     catch (error) {
@@ -59,7 +63,8 @@ exports.create = create;
 const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { author_id, body } = req.body;
+        const { id: author_id } = req.user;
+        const { body } = req.body;
         const { error } = (0, validation_1.validatePost)({ author_id, body });
         if (error)
             throw new Error(error.details[0].message);

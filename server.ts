@@ -3,12 +3,20 @@ import dotenv from "dotenv";
 import cors from "cors";
 import corsOptions from "./config/cors.config";
 import coordinatorRouter from "./src/routes/coordinator.routes";
-
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json";
+import fs from "fs";
+const customCss = fs.readFileSync("./swagger.css", "utf8");
 dotenv.config();
 import sequelizeConnection from "./config/sequelize.config";
 const app: Express = express();
 app.use(express.json());
 app.use(cors(corsOptions));
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument, { customCss })
+);
 const startDatabase = async (): Promise<void> => {
   try {
     console.log("starting");

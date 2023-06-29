@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const post_1 = __importDefault(require("../../../models/post"));
+const user_1 = __importDefault(require("../../../models/user"));
 class PostStore {
     index() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -41,6 +42,10 @@ class PostStore {
     create(post) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
+                const { author_id } = post;
+                const foundAuthor = yield user_1.default.findByPk(author_id);
+                if (!foundAuthor)
+                    throw new Error(`Couldn't find author ${author_id}`);
                 const newPost = yield post_1.default.create(post);
                 return newPost;
             }

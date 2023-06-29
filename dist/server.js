@@ -17,11 +17,16 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const cors_config_1 = __importDefault(require("./config/cors.config"));
 const coordinator_routes_1 = __importDefault(require("./src/routes/coordinator.routes"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swagger_json_1 = __importDefault(require("./swagger.json"));
+const fs_1 = __importDefault(require("fs"));
+const customCss = fs_1.default.readFileSync("./src/swagger.css", "utf8");
 dotenv_1.default.config();
 const sequelize_config_1 = __importDefault(require("./config/sequelize.config"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(cors_config_1.default));
+app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default, { customCss }));
 const startDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("starting");

@@ -23,10 +23,10 @@ export interface UserAttributes {
   country?: string;
   city?: string;
   bio?: string;
-  is_verified: string;
-  is_banned: string;
-  two_factor_enabled: string;
-  is_admin: string;
+  is_verified: boolean;
+  is_banned: boolean;
+  two_factor_enabled: boolean;
+  is_admin: boolean;
 }
 
 class User extends Model<UserAttributes> implements UserAttributes {
@@ -38,10 +38,10 @@ class User extends Model<UserAttributes> implements UserAttributes {
   public country?: string;
   public city?: string;
   public bio?: string;
-  public is_verified!: string;
-  public is_banned!: string;
-  public two_factor_enabled!: string;
-  public is_admin!: string;
+  public is_verified!: boolean;
+  public is_banned!: boolean;
+  public two_factor_enabled!: boolean;
+  public is_admin!: boolean;
 }
 User.init(
   {
@@ -70,19 +70,19 @@ User.init(
     city: DataTypes.STRING,
     bio: DataTypes.STRING,
     is_verified: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     is_banned: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     two_factor_enabled: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
     is_admin: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
   },

@@ -33,10 +33,10 @@ const create = async (req: Request, res: Response) => {
       country,
       city,
       bio,
-      is_verified: "false",
-      is_banned: "false",
-      two_factor_enabled: "false",
-      is_admin: "false",
+      is_verified: false,
+      is_banned: false,
+      two_factor_enabled: false,
+      is_admin: false,
     };
     const userStore = new UserStore();
     const created = await userStore.create(user);

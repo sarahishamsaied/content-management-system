@@ -27,11 +27,6 @@ module.exports = {
       image_url: {
         type: Sequelize.STRING,
       },
-      slug: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true,
-      },
       is_published: {
         type: Sequelize.BOOLEAN,
         allowNull: false,

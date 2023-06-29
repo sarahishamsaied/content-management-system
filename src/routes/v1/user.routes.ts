@@ -8,7 +8,7 @@ import {
 } from "../../handlers/users/users.handler";
 const userRouter = Router();
 userRouter.get("/", index);
-userRouter.post("/", create);
+userRouter.post("/signup", create);
 userRouter.get("/:id", show);
 userRouter.delete("/:id", deactivate);
 userRouter.post("/login", login);

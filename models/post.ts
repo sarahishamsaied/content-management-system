@@ -8,7 +8,6 @@ interface PostAttributes {
   title: string | null;
   body: string;
   image_url: string | null;
-  slug: string;
   is_published: boolean;
 }
 
@@ -17,7 +16,6 @@ class Post extends Model<PostAttributes> implements PostAttributes {
   public title!: string | null;
   public body!: string;
   public image_url!: string | null;
-  public slug!: string;
   public is_published!: boolean;
 }
 Post.init(
@@ -30,10 +28,10 @@ Post.init(
     title: { type: DataTypes.STRING },
     body: { type: DataTypes.STRING, allowNull: false },
     image_url: DataTypes.STRING,
-    slug: { type: DataTypes.STRING, allowNull: false, unique: true },
     is_published: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: true,
     },
   },
   {
@@ -41,6 +39,13 @@ Post.init(
     modelName: "post",
   }
 );
+Post.beforeCreate(async (post, options) => {
+  if (!post.title) {
+    post.title = post.body.substring(0, 20);
+  }
+  post.is_published = true;
+});
+
 Post.hasMany(Comment, {
   foreignKey: "post_id",
   as: "comments",

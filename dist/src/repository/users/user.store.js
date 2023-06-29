@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = __importDefault(require("../../../models/user"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class UserStore {
     index() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,7 +27,36 @@ class UserStore {
             }
             catch (error) {
                 console.log(error);
-                throw new Error(`Could not find users. Error: ${error}`);
+                throw new Error(`Could not find users. ${error}`);
+            }
+        });
+    }
+    generateAuthToken(user) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log("user issss");
+                const token = jsonwebtoken_1.default.sign(user.dataValues, process.env.TOKEN_SECRET);
+                return token;
+            }
+            catch (error) {
+                throw new Error(`Could not generate token. ${error}`);
+            }
+        });
+    }
+    authenticate(email, password) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const foundUser = yield user_1.default.findOne({ where: { email: email } });
+                if (!foundUser)
+                    throw new Error(`Could not find user ${email}`);
+                if (!bcrypt_1.default.compareSync(password, foundUser.password))
+                    throw new Error(`Password is incorrect`);
+                console.log("found user is", foundUser);
+                return foundUser;
+            }
+            catch (error) {
+                console.log(error);
+                throw new Error(`Could not authenticate user ${email}. Error: ${error}`);
             }
         });
     }
@@ -33,7 +64,9 @@ class UserStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = (yield user_1.default.findByPk(id));
-                return user ? user : {};
+                if (!user)
+                    throw new Error(`Could not find user ${id}`);
+                return user;
             }
             catch (error) {
                 throw new Error(`Could not find user ${id}. Error: ${error}`);

@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -14,6 +23,7 @@ const university_1 = __importDefault(require("./university"));
 const school_1 = __importDefault(require("./school"));
 const diploma_1 = __importDefault(require("./diploma"));
 const education_institution_1 = __importDefault(require("./education_institution"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class User extends sequelize_1.Model {
 }
 User.init({
@@ -62,6 +72,16 @@ User.init({
     modelName: "User",
     tableName: "users",
 });
+User.beforeCreate((user, options) => __awaiter(void 0, void 0, void 0, function* () {
+    return bcrypt_1.default
+        .hash(user.password, parseInt(process.env.SALT_ROUNDS))
+        .then((hash) => {
+        user.password = hash;
+    })
+        .catch((err) => {
+        throw new Error(err);
+    });
+}));
 User.hasOne(user_company_1.default, {
     foreignKey: "user_id",
     as: "user_company",

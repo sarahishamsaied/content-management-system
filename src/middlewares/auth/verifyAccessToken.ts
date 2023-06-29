@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { validateAuthenticationToken } from "../../validation";
 import errors from "http-errors";
-interface CustomRequest extends Request {
-  user?: object;
-}
+import CustomRequest from "../../types/CustomRequest";
 
 const verifyAccessToken = (
   req: CustomRequest,

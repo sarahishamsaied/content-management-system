@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import PostStore from "../../repository/posts/post.store";
-interface CustomRequest extends Request {
-  user?: object;
-}
+import CustomRequest from "../../types/CustomRequest";
 const checkOwnership = async (
   req: CustomRequest,
   res: Response,

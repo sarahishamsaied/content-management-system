@@ -18,10 +18,9 @@ class UserStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const users = yield user_1.default.findAll({});
-                console.log(users);
-                if (users) {
+                console.log("users are: ", users);
+                if (users)
                     return users;
-                }
                 return [];
             }
             catch (error) {

@@ -13,7 +13,7 @@ import University from "./university";
 import School from "./school";
 import Diploma from "./diploma";
 import EducationInstitution from "./education_institution";
-
+import bcrypt from "bcrypt";
 export interface UserAttributes {
   first_name: string;
   last_name: string;
@@ -92,6 +92,16 @@ User.init(
     tableName: "users",
   }
 );
+User.beforeCreate(async (user, options) => {
+  return bcrypt
+    .hash(user.password, parseInt(process.env.SALT_ROUNDS as string))
+    .then((hash) => {
+      user.password = hash;
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+});
 User.hasOne(user_company, {
   foreignKey: "user_id",
   as: "user_company",

@@ -1,4 +1,6 @@
 import User, { UserAttributes } from "../../../models/user";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 export default class UserStore {
   async index(): Promise<Array<User>> {
     try {
@@ -8,13 +10,39 @@ export default class UserStore {
       return [];
     } catch (error) {
       console.log(error);
-      throw new Error(`Could not find users. Error: ${error}`);
+      throw new Error(`Could not find users. ${error}`);
+    }
+  }
+  async generateAuthToken(user: User): Promise<string> {
+    try {
+      console.log("user issss");
+      const token = jwt.sign(
+        user.dataValues,
+        process.env.TOKEN_SECRET as string
+      );
+      return token;
+    } catch (error) {
+      throw new Error(`Could not generate token. ${error}`);
+    }
+  }
+  async authenticate(email: string, password: string): Promise<User> {
+    try {
+      const foundUser = await User.findOne({ where: { email: email } });
+      if (!foundUser) throw new Error(`Could not find user ${email}`);
+      if (!bcrypt.compareSync(password, foundUser.password))
+        throw new Error(`Password is incorrect`);
+      console.log("found user is", foundUser);
+      return foundUser;
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Could not authenticate user ${email}. Error: ${error}`);
     }
   }
   async show(id: number): Promise<User> {
     try {
       const user: User = (await User.findByPk(id)) as User;
-      return user ? user : ({} as User);
+      if (!user) throw new Error(`Could not find user ${id}`);
+      return user;
     } catch (error) {
       throw new Error(`Could not find user ${id}. Error: ${error}`);
     }

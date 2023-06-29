@@ -20,6 +20,7 @@ const coordinator_routes_1 = __importDefault(require("./src/routes/coordinator.r
 dotenv_1.default.config();
 const sequelize_config_1 = __importDefault(require("./config/sequelize.config"));
 const app = (0, express_1.default)();
+app.use(express_1.default.json());
 app.use((0, cors_1.default)(cors_config_1.default));
 const startDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -27,9 +28,7 @@ const startDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
         yield sequelize_config_1.default.sync();
         console.log("finished");
         yield sequelize_config_1.default.authenticate();
-        console.log("HRER", process.env.DATABASE_DRIVER);
         console.log("Connection has been established successfully.");
-        //await User.findAll({});
     }
     catch (error) {
         console.log("an error occurred");

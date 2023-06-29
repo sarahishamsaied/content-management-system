@@ -1,6 +1,15 @@
 import { Router } from "express";
-import { create, index } from "../../handlers/users/users.handler";
+import {
+  create,
+  deactivate,
+  index,
+  login,
+  show,
+} from "../../handlers/users/users.handler";
 const userRouter = Router();
 userRouter.get("/", index);
 userRouter.post("/", create);
+userRouter.get("/:id", show);
+userRouter.delete("/:id", deactivate);
+userRouter.post("/login", login);
 export default userRouter;

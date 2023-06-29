@@ -6,14 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const sequelize_config_1 = __importDefault(require("../config/sequelize.config"));
 const user_company_1 = __importDefault(require("./user_company"));
-const user_school_1 = __importDefault(require("./user_school"));
 const like_1 = __importDefault(require("./like"));
 const post_1 = __importDefault(require("./post"));
 const comment_1 = __importDefault(require("./comment"));
-const follow_1 = __importDefault(require("./follow"));
-const user_diploma_1 = __importDefault(require("./user_diploma"));
 const user_university_1 = __importDefault(require("./user_university"));
-const education_institution_user_1 = __importDefault(require("./education_institution_user"));
+const university_1 = __importDefault(require("./university"));
+const school_1 = __importDefault(require("./school"));
+const diploma_1 = __importDefault(require("./diploma"));
+const education_institution_1 = __importDefault(require("./education_institution"));
 class User extends sequelize_1.Model {
 }
 User.init({
@@ -42,59 +42,52 @@ User.init({
     city: sequelize_1.DataTypes.STRING,
     bio: sequelize_1.DataTypes.STRING,
     is_verified: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
     is_banned: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
     two_factor_enabled: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
     is_admin: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.BOOLEAN,
         allowNull: false,
     },
 }, {
     sequelize: sequelize_config_1.default,
     modelName: "User",
+    tableName: "users",
 });
 User.hasOne(user_company_1.default, {
     foreignKey: "user_id",
     as: "user_company",
 });
 User.hasMany(post_1.default, {
-    foreignKey: "user_id",
+    foreignKey: "author_id",
     as: "posts",
 });
 User.hasMany(comment_1.default, {
-    foreignKey: "user_id",
+    foreignKey: "author_id",
     as: "comments",
 });
 User.hasMany(like_1.default, {
     foreignKey: "user_id",
     as: "likes",
 });
-User.hasMany(follow_1.default, {
-    foreignKey: "user_id",
-    as: "follows",
+User.belongsToMany(university_1.default, {
+    through: user_university_1.default,
 });
-User.hasOne(user_university_1.default, {
-    foreignKey: "user_id",
-    as: "user_university",
+User.belongsToMany(school_1.default, {
+    through: "user_school",
 });
-User.hasOne(user_school_1.default, {
-    foreignKey: "user_id",
-    as: "user_school",
+User.belongsToMany(diploma_1.default, {
+    through: "user_diploma",
 });
-User.hasOne(user_diploma_1.default, {
-    foreignKey: "user_id",
-    as: "user_diploma",
-});
-User.hasOne(education_institution_user_1.default, {
-    foreignKey: "user_id",
-    as: "education_institution_user",
+User.belongsToMany(education_institution_1.default, {
+    through: "education_institution_user",
 });
 exports.default = User;

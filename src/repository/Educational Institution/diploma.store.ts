@@ -17,18 +17,19 @@ export default class DiplomaStore {
       const diploma = await Diploma.findByPk(id, {
         include: [
           {
-            model: Diploma,
-            as: "diploma",
+            model: EducationInstitution,
+            as: "education_institution",
           },
         ],
       });
+      if (!diploma) throw new Error(`Could not find diploma ${id}`);
       return diploma as Diploma;
     } catch (err) {
-      throw new Error(`Could not find diploma ${id}. Error: ${err}`);
+      throw new Error(`${err}`);
     }
   }
 
-  async create(diploma: DiplomaAttributes): Promise<Diploma> {
+  async create(diploma: DiplomaAttributes): Promise<DiplomaAttributes> {
     try {
       const educationInstitution = await EducationInstitution.create(diploma);
       const id = educationInstitution.get("id") as number;
@@ -36,9 +37,14 @@ export default class DiplomaStore {
         ...diploma,
         education_institution_id: id,
       });
-      return newDiploma as Diploma;
+      const newDiplomaFullAttributes = {
+        ...newDiploma.get(),
+        ...educationInstitution.get(),
+        id: newDiploma.education_institution_id,
+      };
+      return newDiplomaFullAttributes as DiplomaAttributes;
     } catch (error) {
-      throw new Error(`Error creating diploma: ${error}`);
+      throw new Error(`Error creati ng diploma: ${error}`);
     }
   }
   async update(

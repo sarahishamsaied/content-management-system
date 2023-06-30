@@ -6,6 +6,7 @@
         "description": "API documentation for the CMS backend system"
     },
     "basePath": "/api",
+    "host": "localhost:8080",
     "paths": {
         "/users": {
             "get": {

@@ -14,13 +14,13 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
 
 const create = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, description, address, phone, email, country, city } =
+    const { name, description, address, phone_number, email, country, city } =
       req.body;
     const { error, value } = await validateEducationalInstitution({
       name,
       description,
       address,
-      phone,
+      phone_number,
       email,
       country,
       city,

@@ -20,7 +20,7 @@ const coordinator_routes_1 = __importDefault(require("./src/routes/coordinator.r
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("./swagger.json"));
 const fs_1 = __importDefault(require("fs"));
-const customCss = fs_1.default.readFileSync("./src/swagger.css", "utf8");
+const customCss = fs_1.default.readFileSync("./swagger.css", "utf8");
 dotenv_1.default.config();
 const sequelize_config_1 = __importDefault(require("./config/sequelize.config"));
 const app = (0, express_1.default)();

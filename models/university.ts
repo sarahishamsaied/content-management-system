@@ -2,7 +2,7 @@ import { Model, DataTypes, Sequelize } from "sequelize";
 import sequelizeConnection from "../config/sequelize.config";
 import EducationInstitution from "./education_institution";
 
-interface UniversityAttributes {
+export interface UniversityAttributes {
   education_institution_id: number;
 }
 

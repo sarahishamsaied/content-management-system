@@ -1,9 +1,19 @@
 import { EducationInstitutionAttributes } from "../../models/education_institution";
+export interface BaseEducationInstitutionAttributes
+  extends EducationInstitutionAttributes {
+  id: number;
+}
 
-interface UniversityAttributes extends EducationInstitutionAttributes {}
+interface UniversityAttributes extends BaseEducationInstitutionAttributes {
+  education_institution_id: number;
+}
 
-interface SchoolAttributes extends EducationInstitutionAttributes {}
+interface SchoolAttributes extends BaseEducationInstitutionAttributes {
+  education_institution_id: number;
+}
 
-interface DiplomaAttributes extends EducationInstitutionAttributes {}
+interface DiplomaAttributes extends BaseEducationInstitutionAttributes {
+  education_institution_id: number;
+}
 
 export { UniversityAttributes, SchoolAttributes, DiplomaAttributes };

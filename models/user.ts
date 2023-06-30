@@ -102,10 +102,10 @@ User.beforeCreate(async (user, options) => {
       throw new Error(err);
     });
 });
-User.hasOne(user_company, {
-  foreignKey: "user_id",
-  as: "user_company",
-});
+// User.hasOne(user_company, {
+//   foreignKey: "user_id",
+//   as: "user_company",
+// });
 User.hasMany(Post, {
   foreignKey: "author_id",
   as: "posts",

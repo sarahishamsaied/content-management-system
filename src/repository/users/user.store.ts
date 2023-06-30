@@ -1,6 +1,7 @@
 import User, { UserAttributes } from "../../../models/user";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { UserWithoutPassword } from "../../types/userTypes";
 export default class UserStore {
   async index(): Promise<Array<User>> {
     try {
@@ -47,11 +48,21 @@ export default class UserStore {
       throw new Error(`Could not find user ${id}. Error: ${error}`);
     }
   }
+  async emailExists(email: string): Promise<boolean> {
+    const user: User = (await User.findOne({
+      where: { email: email },
+    })) as User;
+    return user ? true : false;
+  }
 
-  async create(user: UserAttributes): Promise<User> {
+  async create(user: UserAttributes): Promise<UserWithoutPassword> {
     try {
+      console.log("user is", user);
+      const doesEmailExist = await this.emailExists(user.email);
+      if (doesEmailExist) throw new Error(`Email ${user.email} already exists`);
       const newUser: User = await User.create(user);
-      return newUser;
+      const { password, ...userWithoutPassword } = newUser.dataValues;
+      return userWithoutPassword;
     } catch (error) {
       throw new Error(`Could not create new user. Error: ${error}`);
     }

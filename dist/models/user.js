@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 const sequelize_config_1 = __importDefault(require("../config/sequelize.config"));
-const user_company_1 = __importDefault(require("./user_company"));
 const like_1 = __importDefault(require("./like"));
 const post_1 = __importDefault(require("./post"));
 const comment_1 = __importDefault(require("./comment"));
@@ -82,10 +81,10 @@ User.beforeCreate((user, options) => __awaiter(void 0, void 0, void 0, function*
         throw new Error(err);
     });
 }));
-User.hasOne(user_company_1.default, {
-    foreignKey: "user_id",
-    as: "user_company",
-});
+// User.hasOne(user_company, {
+//   foreignKey: "user_id",
+//   as: "user_company",
+// });
 User.hasMany(post_1.default, {
     foreignKey: "author_id",
     as: "posts",

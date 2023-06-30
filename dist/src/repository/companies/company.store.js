@@ -69,7 +69,7 @@ class CompanyStore {
             }
         });
     }
-    delete(id) {
+    deleteCompany(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const foundCompany = yield company_1.default.findByPk(id);

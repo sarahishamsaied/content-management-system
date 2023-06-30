@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const diploma_handler_1 = require("../../handlers/educational institutions/diploma.handler");
+const diplomaRouter = (0, express_1.Router)();
+diplomaRouter.get("/", diploma_handler_1.index);
+diplomaRouter.post("/", diploma_handler_1.create);
+diplomaRouter.get("/:id", diploma_handler_1.show);
+diplomaRouter.put("/:id", diploma_handler_1.update);
+diplomaRouter.delete("/:id", diploma_handler_1.deleteDiploma);
+exports.default = diplomaRouter;

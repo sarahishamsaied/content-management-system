@@ -58,8 +58,7 @@ const create = async (req: Request, res: Response): Promise<void> => {
     const created = await userStore.create(user);
     res.json(created);
   } catch (error) {
-    console.log(error);
-    errors.InternalServerError("Internal Server Error");
+    res.status(400).json({ message: (error as Error).message });
   }
 };
 const show = async (

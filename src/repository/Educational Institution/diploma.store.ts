@@ -95,7 +95,7 @@ export default class DiplomaStore {
       throw new Error(`Couldn't update university ${id}. ${error}`);
     }
   }
-  async delete(id: number): Promise<void> {
+  async deleteDiploma(id: number): Promise<void> {
     const t = await sequelizeConnection.transaction();
     try {
       // Find the diploma by its ID within a transaction

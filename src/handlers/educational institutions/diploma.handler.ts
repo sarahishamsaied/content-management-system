@@ -39,4 +39,18 @@ const update = async (req: Request, res: Response, next: NextFunction) => {
     res.status(401).json({ message: (error as Error).message });
   }
 };
-export { index, create, show, update };
+
+const deleteDiploma = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const diplomaStore = new DiplomaStore();
+    const diploma = await diplomaStore.deleteDiploma(Number(req.params.id));
+    res.status(200).json({ message: "Diploma deleted successfully" });
+  } catch (error) {
+    res.status(401).json({ message: (error as Error).message });
+  }
+};
+export { index, create, show, update, deleteDiploma };

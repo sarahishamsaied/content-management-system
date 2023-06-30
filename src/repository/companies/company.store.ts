@@ -44,7 +44,7 @@ export default class CompanyStore {
       throw new Error(`Couldn't update company ${id}. ${error}`);
     }
   }
-  async delete(id: number) {
+  async deleteCompany(id: number) {
     try {
       const foundCompany = await Company.findByPk(id);
       if (!foundCompany) throw new Error(`Couldn't find company ${id}`);

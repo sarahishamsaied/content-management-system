@@ -105,6 +105,136 @@
           "format": "date-time"
         }
       }
+    },
+    "Comment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "body": {
+          "type": "string"
+        },
+        "author_id": {
+          "type": "integer"
+        },
+        "post_id": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "EducationInstitution": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "address": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "is_verified": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "img_url": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "University": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "educational_institution_id": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+
+    "School": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "educational_institution_id": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Diploma": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "educational_institution_id": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     }
   }
 }

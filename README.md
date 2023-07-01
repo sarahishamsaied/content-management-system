@@ -5,7 +5,7 @@ an upcoming CMS backend system created using Typescript, NodeJs, MySQL.
 
 ## Table of Contents
 
-1. [Introduction](#1.-introduction)
+1. [Introduction](#introduction)
 2. [Getting Started](#getting-started)
    - [Project Setup](#project-setup)
    - [Running the Project](#running-the-project)
@@ -17,13 +17,13 @@ an upcoming CMS backend system created using Typescript, NodeJs, MySQL.
 6. [Database Diagram](#database-diagram)
 
 
-## 1. Introduction 
+## Introduction 
 
 The CMS System is a powerful content management system that enables users to manage job listings, educational institutions, user profiles, and social interactions. It provides a robust platform for companies, educational institutions, and users to connect and engage in a seamless manner.
 
-## 2. Getting Started
+## Getting Started
 
-### 2.1 Project Setup
+### 1. Project Setup
 
 To set up the CMS System, follow these steps:
 
@@ -32,13 +32,13 @@ To set up the CMS System, follow these steps:
 3. Configure the environment variables by creating a `.env` file.
 4. Set up the database connection by configuring the `sequelize.config.js` file.
 
-### 2.2 Running the Project
+### 2. Running the Project
 
 To run the CMS System locally, use the following command:
 
       npm run dev
 
-### 2.3 Database Migrations
+### 3. Database Migrations
 
 The CMS System utilizes Sequelize migrations for managing the database schema. To run the migrations, use the following command:
 
@@ -46,7 +46,7 @@ The CMS System utilizes Sequelize migrations for managing the database schema. T
 
 
 
-### 2.4 Environment Configuration
+### 4. Environment Configuration
 
 The CMS System relies on environment variables for configuration. Ensure that you have a `.env` file in the project root directory and specify the required variables.
 
@@ -62,7 +62,7 @@ The CMS System relies on environment variables for configuration. Ensure that yo
     TOKEN_SECRET = ""
 
 
-## 3. Technology Stack
+## Technology Stack
 
 The CMS System is built using the following technologies:
 
@@ -71,27 +71,27 @@ The CMS System is built using the following technologies:
 - Sequelize (ORM)
 - MySQL (Database)
 
-## 4. Authentication and Authorization
-  ### 4.1 Authentication 
+## Authentication and Authorization
+  ### 1. Authentication 
    The authentication system relies on ***JWT (JSON Web Tokens)*** for secure and ***stateless*** authentication. Users receive a JWT upon login, 
    which they include in their requests ***authorization*** header to access protected resources. 
    The JWT is verified by the ***authentication/authorization*** middleware to ensure the user's identity and authorization.
-  ### 4.2 ***Authorization Middlewares***
-  #### verifyAccessToken:
+  ### 2. ***Authorization Middlewares***
+  1. #### verifyAccessToken:
   his middleware is responsible for verifying the validity and authenticity of an access token provided by the client.
   It checks if the access token is properly signed and has not expired.
 
-  #### validateAccessToken:
+  2. #### validateAccessToken:
   This middleware validates the access token and extracts the relevant user information from it.
   It ensures that the access token is valid and associated with an existing user.
 
-  #### adminMiddleware:
+  3. #### adminMiddleware:
   It checks if the authenticated user has administrative privileges.
-  #### checkOwnership:
+  4. #### checkOwnership:
   This middleware is used to verify the ownership of a resource, such as a post.
   It ensures that only the user who owns the post has permission to ***delete*** or ***edit*** it.
 
-## 5. API Reference
+## API Reference
 
 For the ***API Documentation***, Enter the following url in your browser: <i>http://localhost:{your_port}/api-docs</i> to interact with the APIs within your browser.
 

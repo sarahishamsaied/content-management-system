@@ -14,6 +14,7 @@ an upcoming CMS backend system created using Typescript, NodeJs, MySQL.
 3. [Technology Stack](#technology-stack)
 4. [Authentication and Authorization](#authentication-and-authorization)
 5. [API Reference](#api-reference)
+6. [Database Diagram](#database-diagram)
 
 
 ## 1. Introduction 
@@ -96,15 +97,16 @@ For the ***API Documentation***, Enter the following url in your browser: <i>htt
 
 ***Sample:*** 
 a. APIs:
-![image](https://github.com/sarahishamsaied/content-management-system/assets/71923204/fe64fefb-854a-4984-8574-958ed479c24c)
+![image](https://github.com/sarahishamsaied/content-management-system/assets/71923204/0f06886c-4c4f-4f30-984b-5445c425b3ce)
+
 b. Model Definitions:
 <div>
-  <img src="https://github.com/sarahishamsaied/content-management-system/assets/71923204/809358db-aa44-49b3-8a1e-5d91a7cf0722" alt="Image 1" style="width: 30%;">
-  <img src="https://github.com/sarahishamsaied/content-management-system/assets/71923204/b095382c-4f63-40c6-8390-f6fe316b7c53" alt="Image 2" style="width: 35%;">
+  <img src="https://github.com/sarahishamsaied/content-management-system/assets/71923204/efb3f3d2-0660-4e59-847a-a559784300fb" alt="Image 1" style="width: 35%;">
+  <img src="https://github.com/sarahishamsaied/content-management-system/assets/71923204/dfc2c2b0-e026-4d26-8e37-60e2d6e82a02" alt="Image 2" style="width: 30%;">
 </div>
 
 
 ## Database Diagram:
-![Flowcharts](https://github.com/sarahishamsaied/content-management-system/assets/71923204/0e370271-609f-420d-9895-1dde64529a1e)
+![Flowcharts](https://github.com/sarahishamsaied/content-management-system/assets/71923204/8bfbda21-c0da-4794-8c12-3dc31cb8d06b)
 
 

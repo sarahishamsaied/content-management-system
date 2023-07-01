@@ -5,7 +5,7 @@ an upcoming CMS backend system created using Typescript, NodeJs, MySQL.
 
 ## Table of Contents
 
-1. [Introduction](#introduction)
+1. [Introduction](#1.-introduction)
 2. [Getting Started](#getting-started)
    - [Project Setup](#project-setup)
    - [Running the Project](#running-the-project)

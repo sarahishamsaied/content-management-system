@@ -12,7 +12,7 @@ export default class CommentStore {
   async create(comment: Comment): Promise<Comment> {
     try {
       const addedComment = await Comment.create(comment);
-      return comment;
+      return addedComment;
     } catch (error) {
       throw new Error(`an error occurred ${error}`);
     }

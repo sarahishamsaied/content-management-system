@@ -17,9 +17,8 @@ export default class CommentStore {
       throw new Error(`an error occurred ${error}`);
     }
   }
-  async update(comment: Comment, id: number): Promise<Comment> {
+  async update(body: string, id: number): Promise<Comment> {
     try {
-      const { body } = comment;
       const found = await Comment.findByPk(id);
       if (!found) throw new Error("Cannot find comment");
       found.update({ body });

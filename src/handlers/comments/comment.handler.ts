@@ -5,7 +5,7 @@ import Comment from "../../../models/comment";
 interface CustomRequest extends Request {
   id?: number;
   post_id?: number;
-  author_id: number;
+  author_id?: number;
   comment_body?: string;
 }
 
@@ -24,8 +24,8 @@ const index = async (req: Request, res: Response): Promise<void> => {
 };
 const create = async (req: CustomRequest, res: Response): Promise<void> => {
   try {
-    const { body, author_id, post_id } = req;
-    const comment = { body, author_id, post_id: post_id as number };
+    const { comment_body: body, author_id, post_id } = req.body;
+    const comment = { body, author_id, post_id };
     const commentStore = new CommentStore();
     const addedComment = await commentStore.create(comment as Comment);
     res.status(200).json({
@@ -37,11 +37,11 @@ const create = async (req: CustomRequest, res: Response): Promise<void> => {
     });
   }
 };
-const show = async (req: CustomRequest, res: Response): Promise<void> => {
+const show = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req;
+    const { id } = req.params;
     const commentStore = new CommentStore();
-    const comment = await commentStore.show(id as number);
+    const comment = await commentStore.show(Number(id));
     res.status(200).json({
       comment,
     });

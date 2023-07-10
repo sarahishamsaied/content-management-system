@@ -1,9 +1,7 @@
 import PostStore from "../../repository/posts/post.store";
 import { Request, Response } from "express";
 import { validatePost } from "../../validation";
-interface CustomRequest extends Request {
-  user?: object;
-}
+
 const index = async (req: Request, res: Response): Promise<void> => {
   try {
     const postSore = new PostStore();
@@ -27,11 +25,10 @@ const show = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const create = async (req: CustomRequest, res: Response): Promise<void> => {
+const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const { title, body, image_url } = req.body;
-    const { id: author_id } = req.user as any;
-    console.log(req.user);
+    const { id: author_id } = req.body.user as any;
     console.log("author_id", author_id);
     const { error } = validatePost({ author_id, body });
     if (error) throw new Error(error.details[0].message);
@@ -44,10 +41,10 @@ const create = async (req: CustomRequest, res: Response): Promise<void> => {
   }
 };
 
-const update = async (req: CustomRequest, res: Response): Promise<void> => {
+const update = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    const { id: author_id } = req.user as any;
+    const { id: author_id } = req.body.user as any;
     const { body } = req.body;
     const { error } = validatePost({ author_id, body });
     if (error) throw new Error(error.details[0].message);
@@ -59,7 +56,7 @@ const update = async (req: CustomRequest, res: Response): Promise<void> => {
   }
 };
 
-const deletePost = async (req: CustomRequest, res: Response): Promise<void> => {
+const deletePost = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const postStore = new PostStore();

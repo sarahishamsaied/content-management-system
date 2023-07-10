@@ -2,13 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import CommentStore from "../../repository/comments/comment.store";
 import Comment from "../../../models/comment";
 
-interface CustomRequest extends Request {
-  id?: number;
-  post_id?: number;
-  author_id?: number;
-  comment_body?: string;
-}
-
 const index = async (req: Request, res: Response): Promise<void> => {
   try {
     const commentStore = new CommentStore();
@@ -22,7 +15,7 @@ const index = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
-const create = async (req: CustomRequest, res: Response): Promise<void> => {
+const create = async (req: Request, res: Response): Promise<void> => {
   try {
     const { comment_body: body, author_id, post_id } = req.body;
     const comment = { body, author_id, post_id };
@@ -52,10 +45,10 @@ const show = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-const update = async (req: CustomRequest, res: Response): Promise<void> => {
+const update = async (req: Request, res: Response): Promise<void> => {
   try {
     //comment:Comment,id:number
-    const { body, id } = req;
+    const { body, id } = req.body;
     const commentStore = new CommentStore();
     const updatedComment = await commentStore.update(body, id as number);
     res.status(200).json({
@@ -69,12 +62,9 @@ const update = async (req: CustomRequest, res: Response): Promise<void> => {
   }
 };
 
-const deleteComment = async (
-  req: CustomRequest,
-  res: Response
-): Promise<void> => {
+const deleteComment = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { id } = req;
+    const { id } = req.body;
     const commentStore = new CommentStore();
     const deleted = await commentStore.deleteComment(id as number);
     res.status(200).json({

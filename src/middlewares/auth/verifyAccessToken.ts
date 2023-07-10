@@ -2,13 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { validateAuthenticationToken } from "../../validation";
 import errors from "http-errors";
-import CustomRequest from "../../types/CustomRequest";
 
-const verifyAccessToken = (
-  req: CustomRequest,
-  res: Response,
-  next: NextFunction
-) => {
+const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   console.log("auth", authHeader);
   if (authHeader) {
@@ -24,7 +19,7 @@ const verifyAccessToken = (
         console.log(err);
         return res.sendStatus(403);
       }
-      req.user = user as object;
+      req.body.user = user as object;
       next();
     });
   } else {

@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import CustomRequest from "../../types/CustomRequest";
 import CompanyStore from "../../repository/companies/company.store";
 
 const index = async (req: Request, res: Response, next: NextFunction) => {

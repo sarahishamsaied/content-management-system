@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { validateAuthenticationToken } from "../../validation";
-import errors from "http-errors";
-
-const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
+import CustomRequest from "../../types/CustomRequest";
+import User from "../../../models/user";
+const verifyAccessToken = (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers.authorization;
   console.log("auth", authHeader);
   if (authHeader) {
@@ -19,7 +23,7 @@ const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
         console.log(err);
         return res.sendStatus(403);
       }
-      req.body.user = user;
+      req.user = user as User;
       next();
     });
   } else {

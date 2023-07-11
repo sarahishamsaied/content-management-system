@@ -8,6 +8,7 @@ import schoolRouter from "./v1/school.routes";
 import diplomaRouter from "./v1/diploma.routes";
 import companyRouter from "./v1/company.routes";
 import commentRouter from "./v1/comment.routes";
+import likeRouter from "./v1/like.router";
 const router = Router();
 
 router.use("/users", userRouter);
@@ -17,4 +18,5 @@ router.use("/school", schoolRouter);
 router.use("/diploma", diplomaRouter);
 router.use("/company", companyRouter);
 router.use("/comments", commentRouter);
+router.use("/likes", likeRouter);
 export default router;

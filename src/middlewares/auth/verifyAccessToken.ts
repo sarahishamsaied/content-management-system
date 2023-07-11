@@ -19,7 +19,7 @@ const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
         console.log(err);
         return res.sendStatus(403);
       }
-      req.body.user = user as object;
+      req.body.user = user;
       next();
     });
   } else {

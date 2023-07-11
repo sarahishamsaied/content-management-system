@@ -27,8 +27,7 @@ const show = async (req: Request, res: Response): Promise<void> => {
 
 const create = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { title, body, image_url } = req.body;
-    const { id: author_id } = req.body.user as any;
+    const { title, body, image_url, author_id } = req.body;
     console.log("author_id", author_id);
     const { error } = validatePost({ author_id, body });
     if (error) throw new Error(error.details[0].message);

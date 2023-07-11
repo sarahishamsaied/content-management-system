@@ -44,8 +44,7 @@ exports.show = show;
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title, body, image_url } = req.body;
-        const { id: author_id } = req.user;
-        console.log(req.user);
+        const { id: author_id } = req.body.user;
         console.log("author_id", author_id);
         const { error } = (0, validation_1.validatePost)({ author_id, body });
         if (error)
@@ -63,7 +62,7 @@ exports.create = create;
 const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { id: author_id } = req.user;
+        const { id: author_id } = req.body.user;
         const { body } = req.body;
         const { error } = (0, validation_1.validatePost)({ author_id, body });
         if (error)

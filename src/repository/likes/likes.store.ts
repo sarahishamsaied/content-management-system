@@ -1,5 +1,6 @@
 import Like from "../../../models/like";
 import Post from "../../../models/post";
+import User from "../../../models/user";
 export default class LikeStore {
   async index(): Promise<Like[]> {
     try {
@@ -22,6 +23,8 @@ export default class LikeStore {
     try {
       const foundPost = await Post.findByPk(like.post_id);
       if (!foundPost) throw new Error("Cannot find post");
+      const foundUser = await User.findByPk(like.user_id);
+      if (!foundUser) throw new Error("Cannot find user");
       const createdLike = await Like.create(like);
       return createdLike;
     } catch (error) {

@@ -16,7 +16,7 @@ const post_store_1 = __importDefault(require("../../repository/posts/post.store"
 const checkOwnership = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { user } = req;
+        const { user } = req.body;
         console.log("user", user);
         const postStore = new post_store_1.default();
         const post = yield postStore.show(parseInt(id));

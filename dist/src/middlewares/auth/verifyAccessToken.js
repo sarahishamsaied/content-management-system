@@ -22,7 +22,7 @@ const verifyAccessToken = (req, res, next) => {
                 console.log(err);
                 return res.sendStatus(403);
             }
-            req.user = user;
+            req.body.user = user;
             next();
         });
     }

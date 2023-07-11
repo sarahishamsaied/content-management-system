@@ -1,6 +1,7 @@
 import Post from "../../../models/post";
 import { validatePost } from "../../validation";
 import User from "../../../models/user";
+import Comment from "../../../models/comment";
 export default class PostStore {
   async index() {
     try {
@@ -14,7 +15,12 @@ export default class PostStore {
   }
   async show(id: number) {
     try {
-      const post = await Post.findByPk(id);
+      const post = await Post.findByPk(id, {
+        include: {
+          model: Comment,
+          as: "comments",
+        },
+      });
       return post;
     } catch (error) {
       throw new Error(`Couldn't find post. ${error}`);
@@ -24,6 +30,7 @@ export default class PostStore {
   async create(post: any) {
     try {
       const { author_id } = post;
+      console.log(author_id);
       const foundAuthor = await User.findByPk(author_id);
       if (!foundAuthor) throw new Error(`Couldn't find author ${author_id}`);
       const newPost = await Post.create(post);
@@ -51,6 +58,34 @@ export default class PostStore {
       return true;
     } catch (error) {
       throw new Error(`Couldn't delete post ${id}. ${error}`);
+    }
+  }
+  async authorPosts(id: number): Promise<Post[]> {
+    try {
+      const author = await User.findByPk(id);
+      if (!author) throw new Error("Cannot find user");
+      const posts = await Post.findAll({
+        where: {
+          author_id: id,
+        },
+      });
+      return posts;
+    } catch (error) {
+      throw new Error(`An error occurred, Error: ${error}`);
+    }
+  }
+  async showPostComments(id: number): Promise<Comment[]> {
+    try {
+      const foundPost = await Post.findByPk(id);
+      if (!foundPost) throw new Error("Cannot find post");
+      const comments = await Comment.findAll({
+        where: {
+          post_id: id,
+        },
+      });
+      return comments;
+    } catch (error) {
+      throw new Error(`An error occurred, Error: ${error}`);
     }
   }
 }

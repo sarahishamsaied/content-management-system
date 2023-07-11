@@ -65,8 +65,7 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.json(created);
     }
     catch (error) {
-        console.log(error);
-        http_errors_1.default.InternalServerError("Internal Server Error");
+        res.status(400).json({ message: error.message });
     }
 });
 exports.create = create;

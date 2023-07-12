@@ -4,7 +4,7 @@ export default interface ResourceOwnership {
   Comment: "Comment";
 }
 
-export const ResourceOwnershipType: ResourceOwnership = {
+export const ResourceType: ResourceOwnership = {
   Post: "Post",
   Like: "Like",
   Comment: "Comment",

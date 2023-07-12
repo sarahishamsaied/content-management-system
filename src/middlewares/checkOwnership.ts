@@ -5,7 +5,7 @@ import User, { UserAttributes } from "../../models/user";
 import { UserAttributesWithId } from "../types/userTypes";
 import LikeStore from "../repository/likes/likes.store";
 import CommentStore from "../repository/comments/comment.store";
-import { ResourceOwnershipType } from "../types/ResourceOwnership";
+import { ResourceType } from "../types/ResourceOwnership";
 /**
  * Verifies ownership for a Post.
  *
@@ -56,12 +56,12 @@ const verifyCommentOwnership = async (
 /**
  * Middleware to verify ownership of a resource.
  *
- * @param {keyof typeof ResourceOwnershipType} resource - The type of resource to verify ownership for.
+ * @param {keyof typeof ResourceType} resource - The type of resource to verify ownership for.
  * @returns {Function} The middleware function.
  * @throws {Error} If an invalid resource type is provided.
  */
 const verifyOwnership =
-  (resource: keyof typeof ResourceOwnershipType) =>
+  (resource: keyof typeof ResourceType) =>
   async (req: CustomRequest, res: Response, next: NextFunction) => {
     const { id } = req.params;
     const { user } = req;

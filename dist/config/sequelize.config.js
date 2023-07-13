@@ -10,5 +10,11 @@ const sequelizeConnection = new sequelize_1.Sequelize("cms_development", "root",
     host: "localhost",
     dialect: "mysql",
     port: 3307,
+    query: {
+        raw: true,
+    },
+    dialectOptions: {
+        typeCast: true, // Enable type casting
+    },
 });
 exports.default = sequelizeConnection;

@@ -41,11 +41,11 @@ module.exports = {
         type: Sequelize.STRING,
       },
       is_verified: {
-        type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       is_banned: {
-        type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
       two_factor_enabled: {

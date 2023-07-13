@@ -8,4 +8,5 @@ userRouter.post("/signup", users_handler_1.create);
 userRouter.get("/:id", users_handler_1.show);
 userRouter.delete("/:id", users_handler_1.deactivate);
 userRouter.post("/login", users_handler_1.login);
+userRouter.get("/verify/:token", users_handler_1.verifyEmail);
 exports.default = userRouter;

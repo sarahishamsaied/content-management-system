@@ -43,8 +43,7 @@ const show = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.show = show;
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { title, body, image_url } = req.body;
-        const { id: author_id } = req.body.user;
+        const { title, body, image_url, author_id } = req.body;
         console.log("author_id", author_id);
         const { error } = (0, validation_1.validatePost)({ author_id, body });
         if (error)

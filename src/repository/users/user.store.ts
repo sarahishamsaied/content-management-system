@@ -58,6 +58,7 @@ export default class UserStore {
   async create(user: UserAttributes): Promise<UserWithoutPassword> {
     try {
       console.log("user is", user);
+      console.log("user is", user);
       const doesEmailExist = await this.emailExists(user.email);
       if (doesEmailExist) throw new Error(`Email ${user.email} already exists`);
       const newUser: User = await User.create(user);
@@ -67,16 +68,29 @@ export default class UserStore {
       throw new Error(`Could not create new user. Error: ${error}`);
     }
   }
-  async update(id: number, user: User): Promise<User> {
+  async updateUser(
+    id: number,
+    updatedData: Partial<User>
+  ): Promise<User | null> {
     try {
-      const userToUpdate: User = (await User.findByPk(id)) as User;
-      if (!userToUpdate) throw new Error(`Could not find user ${id}`);
-      const updatedUser: User = await userToUpdate.update(user);
+      const userToUpdate: User | null = await User.findByPk(id);
+      console.log("userToUpdate is", userToUpdate);
+      if (!userToUpdate) {
+        throw new Error(`Could not find user ${id}`);
+      }
+
+      const updatedUser: User = User.build(userToUpdate, {
+        isNewRecord: false,
+      });
+      updatedUser.set(updatedData);
+      await updatedUser.save();
+
       return updatedUser;
     } catch (error) {
       throw new Error(`Could not update user ${id}. Error: ${error}`);
     }
   }
+
   async delete(id: number): Promise<void> {
     try {
       const userToDelete: User = (await User.findByPk(id)) as User;

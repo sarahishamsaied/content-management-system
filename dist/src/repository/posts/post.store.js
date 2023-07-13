@@ -49,6 +49,7 @@ class PostStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { author_id } = post;
+                console.log(author_id);
                 const foundAuthor = yield user_1.default.findByPk(author_id);
                 if (!foundAuthor)
                     throw new Error(`Couldn't find author ${author_id}`);

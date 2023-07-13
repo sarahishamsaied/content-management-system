@@ -8,7 +8,7 @@ import {
 } from "../../handlers/comments/comment.handler";
 import verifyAccessToken from "../../middlewares/auth/verifyAccessToken";
 import verifyOwnership from "../../middlewares/checkOwnership";
-import { ResourceOwnershipType } from "../../types/ResourceOwnership";
+import { ResourceType } from "../../types/ResourceOwnership";
 const commentRouter = Router();
 commentRouter.get("/", index);
 commentRouter.get("/:id", show);
@@ -16,13 +16,13 @@ commentRouter.post("/", verifyAccessToken, create);
 commentRouter.put(
   "/:id",
   verifyAccessToken,
-  verifyOwnership(ResourceOwnershipType.Comment),
+  verifyOwnership(ResourceType.Comment),
   update
 );
 commentRouter.delete(
   "/:id",
   verifyAccessToken,
-  verifyOwnership(ResourceOwnershipType.Comment),
+  verifyOwnership(ResourceType.Comment),
   deleteComment
 );
 

@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import UserStore from "../../repository/users/user.store";
 import errors from "http-errors";
+import sendEmail from "../..//helpers/mail/email.helper";
+import {
+  decodeVerificationToken,
+  generateVerificationToken,
+} from "../../helpers/tokens/verificationToken.helper";
+import { UserAttributesWithId } from "../../types/userTypes";
 /**
  * Get all users.
  *
@@ -56,8 +62,23 @@ const create = async (req: Request, res: Response): Promise<void> => {
     };
     const userStore = new UserStore();
     const created = await userStore.create(user);
-    res.json(created);
+    const { id } = created as UserAttributesWithId;
+    const token = await generateVerificationToken(id);
+    const response = await sendEmail(
+      user.email,
+      "src/views/verification-email.ejs",
+      {
+        subject: "Account Verification",
+        message: `Please verify your account, ${user.first_name}`,
+        recepient: user.email,
+      },
+      token
+    );
+    console.log("res is", response);
+    //res.json(created);
+    res.json({ response });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ message: (error as Error).message });
   }
 };
@@ -119,4 +140,36 @@ const login = async (
     res.status(400).json({ message: (error as Error).message });
   }
 };
-export { index, create, show, deactivate, login };
+const verifyEmail = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { token } = req.params;
+    console.log("token", token);
+    const decoded = await decodeVerificationToken(token);
+    if (!decoded) {
+      res.status(400).json({ message: "Invalid token" });
+    }
+    console.log("decoded", decoded);
+    const userStore = new UserStore();
+    const user = await userStore.show(decoded.user_id);
+    console.log("user", user);
+    const isVerified = user.is_verified;
+    console.log("isVerified", isVerified);
+    console.log("type of is verified", typeof isVerified);
+    if (isVerified) {
+      res.json({ message: "User already verified" });
+    } else {
+      const updated = await userStore.updateUser(decoded.user_id, {
+        ...user,
+        is_verified: true,
+      });
+      res.json({ message: "User verified successfully" });
+    }
+  } catch (error) {
+    res.status(400).json({ message: (error as Error).message });
+  }
+};
+export { index, create, show, deactivate, login, verifyEmail };

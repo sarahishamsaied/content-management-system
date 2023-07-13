@@ -8,7 +8,7 @@ import {
 } from "../../handlers/posts/posts.handler";
 import verifyAccessToken from "../../middlewares/auth/verifyAccessToken";
 import verifyOwnership from "../../middlewares/checkOwnership";
-import { ResourceOwnershipType } from "../../types/ResourceOwnership";
+import { ResourceType } from "../../types/ResourceOwnership";
 
 const postsRouter = Router();
 
@@ -18,13 +18,13 @@ postsRouter.get("/", index);
 postsRouter.delete(
   "/:id",
   verifyAccessToken,
-  verifyOwnership(ResourceOwnershipType.Post),
+  verifyOwnership(ResourceType.Post),
   deletePost
 );
 postsRouter.put(
   "/:id",
   verifyAccessToken,
-  verifyOwnership(ResourceOwnershipType.Post),
+  verifyOwnership(ResourceType.Post),
   update
 );
 

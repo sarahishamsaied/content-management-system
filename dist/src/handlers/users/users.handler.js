@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.deactivate = exports.show = exports.create = exports.index = void 0;
+exports.verifyEmail = exports.login = exports.deactivate = exports.show = exports.create = exports.index = void 0;
 const user_store_1 = __importDefault(require("../../repository/users/user.store"));
 const http_errors_1 = __importDefault(require("http-errors"));
+const email_helper_1 = __importDefault(require("../..//helpers/mail/email.helper"));
+const verificationToken_helper_1 = require("../../helpers/tokens/verificationToken.helper");
 /**
  * Get all users.
  *
@@ -62,9 +64,19 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         };
         const userStore = new user_store_1.default();
         const created = yield userStore.create(user);
-        res.json(created);
+        const { id } = created;
+        const token = yield (0, verificationToken_helper_1.generateVerificationToken)(id);
+        const response = yield (0, email_helper_1.default)(user.email, "src/views/verification-email.ejs", {
+            subject: "Account Verification",
+            message: `Please verify your account, ${user.first_name}`,
+            recepient: user.email,
+        }, token);
+        console.log("res is", response);
+        //res.json(created);
+        res.json({ response });
     }
     catch (error) {
+        console.log(error);
         res.status(400).json({ message: error.message });
     }
 });
@@ -120,3 +132,31 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.login = login;
+const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { token } = req.params;
+        console.log("token", token);
+        const decoded = yield (0, verificationToken_helper_1.decodeVerificationToken)(token);
+        if (!decoded) {
+            res.status(400).json({ message: "Invalid token" });
+        }
+        console.log("decoded", decoded);
+        const userStore = new user_store_1.default();
+        const user = yield userStore.show(decoded.user_id);
+        console.log("user", user);
+        const isVerified = user.is_verified;
+        console.log("isVerified", isVerified);
+        console.log("type of is verified", typeof isVerified);
+        if (isVerified) {
+            res.json({ message: "User already verified" });
+        }
+        else {
+            const updated = yield userStore.update(decoded.user_id, Object.assign(Object.assign({}, user), { is_verified: true }));
+            res.json({ message: "User verified successfully" });
+        }
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+});
+exports.verifyEmail = verifyEmail;

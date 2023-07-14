@@ -9,6 +9,20 @@ import swaggerDocument from "./swagger.json";
 import fs from "fs";
 const customCss = fs.readFileSync("./swagger.css", "utf8");
 import sequelizeConnection from "./config/sequelize.config";
+import passport from "passport";
+import { Strategy } from "passport-google-oauth20";
+import GoogleOAuthConfig from "./config/googleOAuth.config";
+const verifyCallback = async (
+  accessToken: string,
+  refreshToken: string,
+  profile: any,
+  cb: any
+) => {
+  console.log("accessToken is", accessToken);
+  console.log("profile is", profile);
+  cb(null, profile);
+};
+passport.use(new Strategy(GoogleOAuthConfig, verifyCallback));
 const app: Express = express();
 app.use(express.json());
 app.use(cors(corsOptions));
@@ -17,6 +31,7 @@ app.use(
   swaggerUi.serve,
   swaggerUi.setup(swaggerDocument, { customCss })
 );
+app.use(passport.initialize());
 const startDatabase = async (): Promise<void> => {
   try {
     console.log("starting");
@@ -34,7 +49,10 @@ app.use(coordinatorRouter);
 const port = process.env.PORT || 3000;
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World");
+  res.sendFile(__dirname + "/public/index.html");
+});
+app.get("/success", (req: Request, res: Response) => {
+  res.sendFile(__dirname + "/public/success.html");
 });
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -151,7 +151,7 @@ const verifyEmail = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             res.json({ message: "User already verified" });
         }
         else {
-            const updated = yield userStore.update(decoded.user_id, Object.assign(Object.assign({}, user), { is_verified: true }));
+            const updated = yield userStore.updateUser(decoded.user_id, Object.assign(Object.assign({}, user), { is_verified: true }));
             res.json({ message: "User verified successfully" });
         }
     }

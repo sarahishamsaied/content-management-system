@@ -27,7 +27,10 @@ const transporter = nodemailer_1.default.createTransport({
 });
 const sendEmail = (recepient, templatePath, data, token) => __awaiter(void 0, void 0, void 0, function* () {
     const { subject, message } = data;
-    const html = yield ejs_1.default.renderFile(templatePath, { message, verificationLink: `http://localhost:3000/verify/${token}` }, { async: true });
+    const html = yield ejs_1.default.renderFile(templatePath, {
+        message,
+        verificationLink: `${process.env.BASE_URL}/users/verify/${token}`,
+    }, { async: true });
     const mailOptions = {
         from: process.env.CMS_EMAIL,
         to: recepient,

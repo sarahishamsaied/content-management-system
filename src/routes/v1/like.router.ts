@@ -7,7 +7,7 @@ import {
 } from "../../handlers/likes/likes.handler";
 import verifyOwnership from "../../middlewares/checkOwnership";
 import { ResourceType } from "../../types/ResourceOwnership";
-import verifyAccessToken from "../../middlewares/auth/verifyAccessToken";
+import { verifyAccessToken } from "../../middlewares/auth/verifyAccessToken";
 const likeRouter = Router();
 
 likeRouter.get("/", index);

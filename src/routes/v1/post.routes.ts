@@ -6,24 +6,29 @@ import {
   show,
   update,
 } from "../../handlers/posts/posts.handler";
-import verifyAccessToken from "../../middlewares/auth/verifyAccessToken";
+import {
+  verifyAccessToken,
+  verifyGoogleAccessToken,
+} from "../../middlewares/auth/verifyAccessToken";
 import verifyOwnership from "../../middlewares/checkOwnership";
 import { ResourceType } from "../../types/ResourceOwnership";
 
 const postsRouter = Router();
 
-postsRouter.post("/", verifyAccessToken, create);
-postsRouter.get("/:id", show);
-postsRouter.get("/", index);
+postsRouter.post("/", verifyAccessToken, verifyGoogleAccessToken, create);
+postsRouter.get("/:id", verifyAccessToken, verifyGoogleAccessToken, show);
+postsRouter.get("/", verifyAccessToken, verifyGoogleAccessToken, index);
 postsRouter.delete(
   "/:id",
   verifyAccessToken,
+  verifyGoogleAccessToken,
   verifyOwnership(ResourceType.Post),
   deletePost
 );
 postsRouter.put(
   "/:id",
   verifyAccessToken,
+  verifyGoogleAccessToken,
   verifyOwnership(ResourceType.Post),
   update
 );

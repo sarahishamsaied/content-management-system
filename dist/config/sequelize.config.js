@@ -5,11 +5,13 @@ const dbName = process.env.DATABASE_NAME;
 const dbPass = process.env.DATABASE_PASSWORD;
 const dbHost = process.env.DATABASE_HOST;
 const dbUser = process.env.DATABASE_USER;
+const dbPort = parseInt(process.env.DATABASE_PORT);
 const dbDriver = process.env.DATABASE_DRIVER;
-const sequelizeConnection = new sequelize_1.Sequelize("cms_development", "root", "", {
-    host: "localhost",
-    dialect: "mysql",
-    port: 3307,
+console.log(process.env.DATABASE_NAME);
+const sequelizeConnection = new sequelize_1.Sequelize(dbName, dbUser, dbPass, {
+    host: dbHost,
+    dialect: dbDriver,
+    port: dbPort,
     query: {
         raw: true,
     },

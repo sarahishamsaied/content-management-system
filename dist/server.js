@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const cors_1 = __importDefault(require("cors"));
 const cors_config_1 = __importDefault(require("./config/cors.config"));
 const coordinator_routes_1 = __importDefault(require("./src/routes/coordinator.routes"));
@@ -21,12 +22,20 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const swagger_json_1 = __importDefault(require("./swagger.json"));
 const fs_1 = __importDefault(require("fs"));
 const customCss = fs_1.default.readFileSync("./swagger.css", "utf8");
-dotenv_1.default.config();
 const sequelize_config_1 = __importDefault(require("./config/sequelize.config"));
+const passport_1 = __importDefault(require("passport"));
+const passport_google_oauth20_1 = require("passport-google-oauth20");
+const googleOAuth_config_1 = __importDefault(require("./config/googleOAuth.config"));
+const verifyCallback = (accessToken, refreshToken, profile, cb) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("profile is", profile);
+    cb(null, profile);
+});
+passport_1.default.use(new passport_google_oauth20_1.Strategy(googleOAuth_config_1.default, verifyCallback));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)(cors_config_1.default));
 app.use("/api-docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default, { customCss }));
+app.use(passport_1.default.initialize());
 const startDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("starting");

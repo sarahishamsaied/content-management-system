@@ -96,6 +96,7 @@ class UserStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log("user is", user);
+                console.log("user is", user);
                 const doesEmailExist = yield this.emailExists(user.email);
                 if (doesEmailExist)
                     throw new Error(`Email ${user.email} already exists`);
@@ -108,13 +109,19 @@ class UserStore {
             }
         });
     }
-    update(id, user) {
+    updateUser(id, updatedData) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userToUpdate = (yield user_1.default.findByPk(id));
-                if (!userToUpdate)
+                const userToUpdate = yield user_1.default.findByPk(id);
+                console.log("userToUpdate is", userToUpdate);
+                if (!userToUpdate) {
                     throw new Error(`Could not find user ${id}`);
-                const updatedUser = yield userToUpdate.update(user);
+                }
+                const updatedUser = user_1.default.build(userToUpdate, {
+                    isNewRecord: false,
+                });
+                updatedUser.set(updatedData);
+                yield updatedUser.save();
                 return updatedUser;
             }
             catch (error) {

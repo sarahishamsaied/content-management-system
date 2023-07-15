@@ -17,10 +17,7 @@ export default class UserStore {
   async generateAuthToken(user: User): Promise<string> {
     try {
       console.log("user issss");
-      const token = jwt.sign(
-        user.dataValues,
-        process.env.TOKEN_SECRET as string
-      );
+      const token = jwt.sign(user, process.env.TOKEN_SECRET as string);
       return token;
     } catch (error) {
       throw new Error(`Could not generate token. ${error}`);
